@@ -5,9 +5,15 @@ export interface Item {
   owner: string;
 }
 
-export interface Stock {
+export interface UserBought {
+  name: string;
+  count: number;
+}
+
+export interface Pool {
   name: string;
   createdAt: Date;
   item: Item[];
-  loseCount: number;
+  bought: UserBought[];
+  pricePerCount: number;
 }

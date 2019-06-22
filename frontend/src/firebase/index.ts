@@ -1,4 +1,4 @@
-import { Stock } from "./../types/stock";
+import { Pool } from "./../types/pool";
 import * as firebase from "firebase";
 
 const config = {
@@ -13,12 +13,13 @@ const config = {
 
 firebase.initializeApp(config);
 
-export const stocksRef = firebase.database().ref("/stocks");
+export const randomPoolRef = firebase.database().ref("/randomPool");
+export const itemRef = firebase.database().ref("/item");
 
-export const addStock = (stock: Stock) => {
-  stocksRef.push(stock);
+export const addPool = (pool: Pool) => {
+  randomPoolRef.push(pool);
 };
 
-export const deleteStock = (stockId: string) => {
-  stocksRef.child(stockId).remove();
+export const deletePool = (poolId: string) => {
+  randomPoolRef.child(poolId).remove();
 };
