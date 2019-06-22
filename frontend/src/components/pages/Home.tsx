@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as fiery from "fiery";
-import { Spin, Input } from "antd";
+import { Spin, Input, message } from "antd";
 import { Button } from "../Button";
 import { addPool, deletePool, randomPoolRef } from "../../firebase";
 import axios from "axios";
@@ -24,6 +24,7 @@ const Title = styled.h1`
 
 const Home = ({ location, history }) => {
   const [onFetch, setOnFetch] = useState(false);
+  console.log(history);
   useEffect(() => {
     const { search } = location;
     const { code } = queryString.parse(search);
@@ -32,7 +33,11 @@ const Home = ({ location, history }) => {
       try {
         localStorage.setItem("code", code.toString());
         if (typeof code === "string") {
-          getToken(code);
+          getToken(code).then(accessToken => {
+            localStorage.setItem("accessToken", accessToken);
+            message.success("Login with SCB!");
+            history.push("/list");
+          });
         }
       } catch (e) {
       } finally {
