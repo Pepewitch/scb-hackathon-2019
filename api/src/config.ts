@@ -10,7 +10,8 @@ export const {
   TEST_ACCESS_TOKEN,
   TEST_REFRESH_TOKEN,
   TEST_RESOURCE_OWNER_ID,
-  PORT
+  PORT,
+  ACCOUNT_ID
 } = process.env;
 
 export const UID = "1";

@@ -19,8 +19,9 @@ app.post("/token", (req, res) => {
     .catch(e => res.status(400).send(e.toString()));
 });
 
-app.get("/buy", (req, res) => {
-  buy(UID, 200, TEST_ACCESS_TOKEN)
+app.post("/buy", (req, res) => {
+  const { token } = req.body;
+  buy(UID, 200, token)
     .then(e => {
       res.send(e.data.deeplinkUrl);
     })

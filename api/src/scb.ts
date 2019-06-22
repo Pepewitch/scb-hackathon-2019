@@ -3,7 +3,8 @@ import {
   SCB_BASE_URL,
   SCB_KEY,
   SCB_SECRET,
-  TEST_RESOURCE_OWNER_ID
+  TEST_RESOURCE_OWNER_ID,
+  ACCOUNT_ID
 } from "./config";
 
 export const getToken = (uid: string, authCode?: string) => {
@@ -50,7 +51,10 @@ export const buy = (uid: string, amount: number, token: string) => {
       {
         paymentAmount: amount,
         transactionType: "PAYMENT",
-        transactionSubType: "BPA"
+        transactionSubType: "BPA",
+        ref1: "1",
+        ref2: "2",
+        accountTo: ACCOUNT_ID
       },
       {
         headers: {
@@ -62,5 +66,6 @@ export const buy = (uid: string, amount: number, token: string) => {
         }
       }
     )
-    .then(e => e.data);
+    .then(e => e.data)
+    .catch(e => console.error(e));
 };
