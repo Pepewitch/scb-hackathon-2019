@@ -1,30 +1,38 @@
 import React, { useEffect, useState } from "react";
-import * as fiery from "fiery";
-import { Spin, Input, message } from "antd";
+import { Spin, message } from "antd";
 import { Button } from "../Button";
-import { addPool, deletePool, randomPoolRef } from "../../firebase";
-import axios from "axios";
 import { login, getToken } from "../../services";
 import * as queryString from "query-string";
+import logo from "../../assets/logo.png";
+import profile from "../../assets/profile.png";
+import password from "../../assets/password.png";
 import styled from "styled-components";
-import { Card } from "../Layout";
-
-const Container = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  background-color: #111;
-  height: 100%;
-  padding: 24px;
-  align-items: center;
-`;
+import { Card, Container } from "../Layout";
+import { COLOR } from "../../const";
 
 const Title = styled.h1`
   color: #eee;
 `;
 
-const Home = ({ location, history }) => {
+const Input = styled.input`
+  line-height: 2rem;
+  border-bottom: 1px solid #eee;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  padding: 0.5rem 0;
+  font-size: 1.2rem;
+  outline: none;
+`;
+
+const Icon = styled.img`
+  width: 1.5rem;
+  height: auto;
+`;
+
+const Home = (props: any) => {
+  const { history, location } = props;
   const [onFetch, setOnFetch] = useState(false);
-  console.log(history);
   useEffect(() => {
     const { search } = location;
     const { code } = queryString.parse(search);
@@ -45,33 +53,52 @@ const Home = ({ location, history }) => {
       }
     }
   }, [location]);
-  return (
-    <Container>
+  const loginWithScb = async () => {
+    setOnFetch(true);
+    await login();
+    setOnFetch(false);
+  };
+  const content = (
+    <Container style={{ minHeight: "100vh" }}>
       <Title>Lucket</Title>
-      <div
-        style={{
-          width: 80,
-          height: 80,
-          background: "#eee",
-          marginBottom: "2em"
-        }}
-      >
-        img
-      </div>
+      <img
+        src={logo}
+        style={{ width: 80, height: "auto", marginBottom: "2em" }}
+      />
+
       <Card style={{ padding: 16, marginBottom: "2em" }}>
-        <Input />
-        <Input />
-        <Input />
-        <Input />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.5rem auto",
+            gridRowGap: "0.5rem",
+            gridColumnGap: "1rem",
+            alignItems: "center"
+          }}
+        >
+          <Icon src={profile} />
+          <Input placeholder="Full name" />
+          <Icon src={password} />
+          <Input placeholder="Password" type="password" />
+          <Icon src={password} />
+          <Input placeholder="Confirm Password" type="password" />
+        </div>
       </Card>
-      {/* <Button disabled={onFetch} onClick={login}>
+
+      <Button
+        disabled={onFetch}
+        onClick={login}
+        color="primary"
+        style={{ marginBottom: "1.6rem" }}
+      >
         SIGN UP
-      </Button> */}
-      <Button disabled={onFetch} onClick={login}>
+      </Button>
+      <Button disabled={onFetch} onClick={loginWithScb}>
         SIGN UP WITH SCB
       </Button>
     </Container>
   );
+  return onFetch ? <Spin>{content}</Spin> : content;
 };
 
 export default Home;
