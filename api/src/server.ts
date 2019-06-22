@@ -12,6 +12,10 @@ app.use(cors());
 app.use(json());
 app.use(express.static(join(__dirname, "..", "views")));
 
+app.get("/ping", (req, res) => {
+  res.send("pong");
+});
+
 app.post("/token", (req, res) => {
   const { authCode } = req.body;
   getToken(UID, authCode)
@@ -36,6 +40,4 @@ app.get("/login", (req, res) => {
     .catch(e => res.status(400).send(e.toString()));
 });
 
-app.listen(PORT || 4000, () => {
-  console.log(`listen at: http://localhost:${PORT}`);
-});
+export default app;

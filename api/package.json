@@ -6,12 +6,17 @@
     "type": "git",
     "url": "https://github.com/Microsoft/TypeScript-Node-Starter"
   },
+  "engines": {
+    "node": "8"
+  },
+  "main": "dist/index.js",
   "author": "Bowden Kelly",
   "license": "MIT",
   "scripts": {
     "start": "npm run serve",
-    "build": "npm run build-sass && npm run build-ts && npm run tslint && npm run copy-static-assets",
-    "serve": "node dist/server.js",
+    "build": "tsc",
+    "serve": "npm run build && firebase serve --only functions",
+    "deploy": "firebase deploy --only functions",
     "watch-node": "nodemon dist/server.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
     "test": "jest --forceExit --coverage --verbose",
@@ -27,6 +32,8 @@
     "watch-debug": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run serve-debug\""
   },
   "dependencies": {
+    "firebase-admin": "~7.0.0",
+    "firebase-functions": "^2.3.0",
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -44,6 +51,7 @@
     "@types/morgan": "^1.7.35",
     "@types/request": "^2.48.1",
     "concurrently": "^4.1.0",
+    "firebase-functions-test": "^0.1.6",
     "nodemon": "^1.18.10",
     "ts-node": "^5.0.0",
     "tslint": "^5.9.1",
