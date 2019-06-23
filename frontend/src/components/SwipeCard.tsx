@@ -10,6 +10,7 @@ const CardImageContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+  padding: 16px;
   height: 240px;
   background-color: #eee;
   border-bottom: 2px solid #eee;

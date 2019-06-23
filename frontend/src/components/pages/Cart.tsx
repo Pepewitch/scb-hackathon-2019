@@ -6,6 +6,7 @@ import * as queryString from "query-string";
 import { COLOR } from "../../const";
 import demo from "../../assets/demo.png";
 import { buy } from "../../services";
+import { mock } from "./List";
 
 const Title = styled.span`
   color: white;
@@ -48,14 +49,20 @@ const DetailImage = styled.img`
   height: auto;
 `;
 
-const TicketList = (props: { name: string; price: number; list: number[] }) => {
-  const { name, price, list } = props;
+const TicketList = (props: {
+  name: string;
+  price: number;
+  list: number[];
+  poolId: any;
+}) => {
+  const { name, price, list, poolId } = props;
+  const item = mock.find(e => e.poolId.toString() === poolId.toString());
   return (
     <div style={{ width: "100%" }}>
       {list.map((n, i) => (
         <TicketDetail key={i}>
           <DetailImageContainer>
-            <DetailImage src={demo} />
+            <DetailImage src={(item && item.img) || ""} />
           </DetailImageContainer>
           <Flex direction="column" style={{ justifyContent: "space-evenly" }}>
             <Flex direction="row" style={{ justifyContent: "space-between" }}>
@@ -92,6 +99,7 @@ const Cart = (props: any) => {
         name={selected.name}
         price={selected.price}
         list={selected.tickets}
+        poolId={selected.poolId}
       />
       <Flex
         direction="row"
