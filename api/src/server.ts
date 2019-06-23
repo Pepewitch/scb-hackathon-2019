@@ -24,8 +24,8 @@ app.post("/token", (req, res) => {
 });
 
 app.post("/buy", (req, res) => {
-  const { token } = req.body;
-  buy(UID, 200, token)
+  const { token, amount } = req.body;
+  buy(UID, amount, token)
     .then(e => {
       res.send(e.data.deeplinkUrl);
     })
