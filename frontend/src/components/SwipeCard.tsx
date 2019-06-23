@@ -29,13 +29,14 @@ const CardContent = styled.div`
   padding: 24px;
 `;
 
-const SwipeCard = () => {
+const SwipeCard = (props: any) => {
+  const { img, content } = props;
   return (
     <Card>
       <CardImageContainer>
-        <CardImage src={demo} />
+        <CardImage src={img || demo} />
       </CardImageContainer>
-      <CardContent>Hello</CardContent>
+      <CardContent>{content || "Hello world"}</CardContent>
     </Card>
   );
 };

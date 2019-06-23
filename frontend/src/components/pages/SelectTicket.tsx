@@ -24,16 +24,18 @@ const Text = styled.span`
 const Grid = styled.div`
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(2rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(3rem, 1fr));
+  justify-content: center;
+  align-items: center;
   grid-gap: 0.5rem;
 `;
 
 const TicketContainer = styled.button`
   border: none;
   outline: none;
-  width: 2rem;
+  width: 3rem;
   color: white;
-  height: 2rem;
+  height: 3rem;
   border-radius: 0.3rem;
   font-weight: 600;
 `;
@@ -58,10 +60,10 @@ interface Ticket {
   disabled: boolean;
 }
 
-const TicketList = (props: { tickets: Ticket[]; onClick?: any }) => {
-  const { onClick, tickets } = props;
+const TicketList = (props: { tickets: Ticket[]; onClick?: any, style: any }) => {
+  const { onClick, tickets, ...rest } = props;
   return (
-    <Grid>
+    <Grid {...rest}>
       {tickets
         ? tickets.map((ticket, index) => (
             <Ticket
@@ -76,7 +78,10 @@ const TicketList = (props: { tickets: Ticket[]; onClick?: any }) => {
     </Grid>
   );
 };
-
+const mock: any = [];
+for (let i = 1; i < 81; i++) {
+  mock.push({ number: i, selected: false, disabled: false });
+}
 const SelectTicket = (props: any) => {
   const {
     history,
@@ -84,22 +89,19 @@ const SelectTicket = (props: any) => {
       params: { poolId }
     }
   } = props;
-  const [tickets, setTickets] = useState<Ticket[]>([
-    { number: 1, selected: false, disabled: false },
-    { number: 2, selected: false, disabled: false },
-    { number: 3, selected: false, disabled: false },
-    { number: 4, selected: false, disabled: false },
-    { number: 5, selected: false, disabled: false },
-    { number: 6, selected: false, disabled: false },
-    { number: 7, selected: false, disabled: true }
-  ]);
+  const [tickets, setTickets] = useState<Ticket[]>(mock as any);
+  const name = "Item1";
+  const price = 100;
   const toCart = () => {
     history.push({
       pathname: `/cart`,
       search: queryString.stringify({
-        [poolId]: JSON.stringify(
+        name,
+        price,
+        tickets: JSON.stringify(
           tickets.filter(e => e.selected).map(e => e.number)
-        )
+        ),
+        poolId
       })
     });
   };
@@ -111,23 +113,23 @@ const SelectTicket = (props: any) => {
         style={{ width: "100%", height: "auto", marginBottom: "2rem" }}
       />
       <Flex direction="row">
-        <h2 style={{ color: "white" }}>Item1</h2>
+        <h2 style={{ color: "white" }}>{name}</h2>
       </Flex>
-      <Flex direction="row">
+      <Flex direction="row" style={{ marginBottom: "0.5rem" }}>
         <Text>Ticket Price</Text>
-        <Tag color={COLOR.PRIMARY}>100 Baht</Tag>
+        <Tag color={COLOR.PRIMARY}>{price} Baht</Tag>
       </Flex>
-      <Flex direction="row">
+      <Flex direction="row" style={{ marginBottom: "0.5rem" }}>
         <Text>Live Draw in</Text>
       </Flex>
-      <Countdown target={new Date(Date.now() + 10000000)} />
-      <Flex direction="row">
+      <Countdown target={new Date(Date.now() + 10000000)} style={{ marginBottom: "0.5rem" }} />
+      <Flex direction="row" style={{ marginBottom: "0.5rem" }}>
         <h2 style={{ color: "white" }}>Please select your ticket</h2>
       </Flex>
       <TicketList
+        style={{ marginBottom: "0.5rem" }}
         tickets={tickets}
         onClick={(ticket: Ticket) => {
-          console.log(ticket);
           const selectedTicket = tickets.find(e => e === ticket);
           if (selectedTicket) {
             selectedTicket.selected = !!!selectedTicket.selected;

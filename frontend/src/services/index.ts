@@ -17,14 +17,14 @@ export const getToken = (authCode?: string) => {
     .then(e => e.data.accessToken);
 };
 
-export const buy = (amount: number) => {
+export const buy = (amount: number, callback = `${BASE_URL}/list`) => {
   return axios
     .post(`${BASE_API_URL}/buy`, {
       token: localStorage.getItem("accessToken"),
       amount
     })
     .then(e => {
-      window.location = `${e.data}?callback_url=${BASE_URL}/list` as any;
+      window.location = `${e.data}?callback_url=${callback}` as any;
     })
     .catch(e => console.error(e));
 };

@@ -17,3 +17,14 @@ export interface Pool {
   bought: UserBought[];
   pricePerCount: number;
 }
+
+export interface User {
+  name: string;
+  boughtList: {
+    [poolId: string]: UserBought;
+  };
+}
+
+export interface UserList {
+  [Id: string]: User;
+}
